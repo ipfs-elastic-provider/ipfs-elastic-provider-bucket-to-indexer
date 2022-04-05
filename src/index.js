@@ -16,7 +16,7 @@ async function main(event) {
 async function publishToSQS(data) {
   let queue = indexerQueue ?? 'indexerQueue'
   try {
-    logger.log(`Sending message ${data} to queue ${queue}`)
+    logger.info(`Sending message ${data} to queue ${queue}`)
     sqsClient.send(
       new SendMessageCommand({ QueueUrl: queue, MessageBody: data }),
     )
