@@ -1,4 +1,4 @@
-#  IPFS Elastic Provider - Bucket to Indexer
+# IPFS Elastic Provider - Bucket to Indexer
 
 ## Deployment environment variables
 
