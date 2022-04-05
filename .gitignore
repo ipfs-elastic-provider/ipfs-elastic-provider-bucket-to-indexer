@@ -1,0 +1,4 @@
+coverage
+dist/
+event*.json
+node_modules
