@@ -27,8 +27,8 @@ jobs:
           echo PACKAGE_VERSION=$(cat package.json | jq -r '.version') >> $GITHUB_ENV
           echo BUILD_DATE=$(date +%Y%m%d.%H%M) >> $GITHUB_ENV
           npm install
-      - name: Test code
-        run: npm run test:ci
+      # - name: Test code
+      #   run: npm run test:ci
       - name: Lint code
         run: npm run lint
       - name: Set up Docker Buildx
