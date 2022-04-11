@@ -1,5 +1,8 @@
+const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs')
 const { logger, serializeError } = require('./logging')
 const { SQS_INDEXER_QUEUE_URL: indexerQueue } = process.env
+
+const SQSclient = new SQSClient()
 
 async function main(event) {
   try {
@@ -14,15 +17,15 @@ async function main(event) {
 }
 
 async function publishToSQS(data) {
-  let queue = indexerQueue ?? 'indexerQueue'
+  const queue = indexerQueue ?? 'indexerQueue'
   try {
     logger.info(`Sending message ${data} to queue ${queue}`)
-    sqsClient.send(
-      new SendMessageCommand({ QueueUrl: queue, MessageBody: data }),
+    SQSclient.send(
+      new SendMessageCommand({ QueueUrl: queue, MessageBody: data })
     )
   } catch (e) {
     logger.error(
-      `Cannot send message ${data} to ${queue}: ${serializeError(e)}`,
+      `Cannot send message ${data} to ${queue}: ${serializeError(e)}`
     )
     throw e
   }
