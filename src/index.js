@@ -2,7 +2,9 @@ const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs')
 const { logger, serializeError } = require('./logging')
 const { SQS_INDEXER_QUEUE_URL: indexerQueue } = process.env
 
-const SQSclient = new SQSClient()
+const SQSclient = new SQSClient({
+  region: "us-west-2" // TODO: Environment variable
+})
 
 async function main(event) {
   try {
