@@ -15,15 +15,16 @@
     "invoke": "aws lambda invoke --cli-binary-format raw-in-base64-out --region $AWS_REGION --function-name $LAMBDA --payload file://event.json --log-type Tail /dev/null | jq -r .LogResult | base64 -d"
   },
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.67.0",
     "pino": "^7.2.0"
   },
   "devDependencies": {
-    "pino-pretty": "^7.2.0",
     "c8": "^7.11.0",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.1"
+    "eslint-plugin-promise": "^5.1.1",
+    "pino-pretty": "^7.2.0"
   }
 }

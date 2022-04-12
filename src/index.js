@@ -20,9 +20,10 @@ async function publishToSQS(data) {
   const queue = indexerQueue ?? 'indexerQueue'
   try {
     logger.info(`Sending message ${data} to queue ${queue}`)
-    SQSclient.send(
+    const data = await SQSclient.send(
       new SendMessageCommand({ QueueUrl: queue, MessageBody: data })
     )
+    console.log("Success, message sent. MessageID:", data.MessageId);
   } catch (e) {
     logger.error(
       `Cannot send message ${data} to ${queue}: ${serializeError(e)}`
