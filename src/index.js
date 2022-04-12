@@ -8,7 +8,7 @@ async function main(event) {
   try {
     for (const record of event.Records) {
       const snsMessage = `${record.awsRegion}/${record.s3.bucket.name}/${record.s3.object.key}`
-      publishToSQS(snsMessage)
+      await publishToSQS(snsMessage)
     }
   } catch (e) {
     logger.error(`${serializeError(e)}`)
@@ -23,7 +23,7 @@ async function publishToSQS(data) {
     const response = await SQSclient.send(
       new SendMessageCommand({ QueueUrl: queue, MessageBody: data })
     )
-    console.log(`Success, message sent. MessageID: ${response.MessageId}`)
+    logger.info(`Success, message sent. MessageID: ${response.MessageId}`)
   } catch (e) {
     logger.error(
       `Cannot send message ${data} to ${queue}: ${serializeError(e)}`
