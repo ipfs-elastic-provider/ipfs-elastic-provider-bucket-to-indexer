@@ -59,7 +59,7 @@ function toS3Event(snsEvent) {
         s3Event.Records.push(s3Rec)
       }
     } catch (err) {
-      console.error(`failed to extract S3Event record from SNSEvent record: ${err.message}`)
+      console.error(`failed to extract S3Event record from SNSEvent record: ${err.message}`, snsRec)
     }
   }
   return s3Event
