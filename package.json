@@ -9,7 +9,7 @@
     "format": "prettier -w src",
     "lint": "eslint src",
     "build": "bash scripts/build.sh",
-    "test": "c8 --reporter=text --reporter=html tap --rcfile=test/utils/config.yml",
+    "test": "echo \"no test specified\" ",
     "test:ci": "c8 --reporter=text --reporter=json --check-coverage --branches 90 --functions 90 --lines 90 --statements 90 tap --rcfile=test/utils/config.yml",
     "deploy": "aws lambda update-function-code --cli-connect-timeout 15000 --region $AWS_REGION --function-name $LAMBDA --image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$AWS_ECR_REPOSITORY:latest",
     "invoke": "aws lambda invoke --cli-binary-format raw-in-base64-out --region $AWS_REGION --function-name $LAMBDA --payload file://event.json --log-type Tail /dev/null | jq -r .LogResult | base64 -d"
@@ -25,6 +25,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
-    "pino-pretty": "^7.2.0"
+    "pino-pretty": "^7.2.0",
+    "tap": "^15.1.6"
   }
 }
