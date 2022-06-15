@@ -2,7 +2,7 @@
 name: Build and Deploy Dev
 on:
   push:
-    branches: [dev]
+    branches: [dev, dev-staging-workflows]
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
