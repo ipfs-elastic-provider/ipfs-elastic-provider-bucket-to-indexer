@@ -7,7 +7,17 @@ on:
 env:
   REGISTRY: ghcr.io
 jobs: # We need two separate builds as each is going to a different ECR repo
-  build:
+  build-staging:
+    permissions:
+      packages: write
+      id-token: write
+    uses: ipfs-elastic-provider/shared-workflows/.github/workflows/lambda-shared-build.yaml@main
+    secrets:
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      aws_role_id: ${{ secrets.AWS_ROLE_ID }}
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_STAGING }}
+  build-prod:
     permissions:
       packages: write
       id-token: write
@@ -17,15 +27,29 @@ jobs: # We need two separate builds as each is going to a different ECR repo
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
       aws_region: ${{ secrets.AWS_REGION }}
       aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY }}
-  deploy:
+  deploy-to-staging:
     uses: ipfs-elastic-provider/shared-workflows/.github/workflows/lambda-shared-deploy.yaml@main
     permissions:
       id-token: write
-    needs: build
+    needs: build-staging
+    with:
+      deploy_to_environment: staging
+      lambda: staging-ep-bucket-to-indexer
+      docker_image_version: ${{ needs.build-staging.outputs.build_date }}
+    secrets:
+      aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      aws_role_id: ${{ secrets.AWS_ROLE_ID }}
+      aws_region: ${{ secrets.AWS_REGION }}
+      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_STAGING }}
+  deploy-to-prod:
+    uses: ipfs-elastic-provider/shared-workflows/.github/workflows/lambda-shared-deploy.yaml@main
+    permissions:
+      id-token: write
+    needs: build-prod
     with:
       deploy_to_environment: prod
       lambda: bucket-to-indexer
-      docker_image_version: ${{ needs.build.outputs.build_date }}
+      docker_image_version: ${{ needs.build-prod.outputs.build_date }}
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
