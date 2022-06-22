@@ -9,9 +9,15 @@ const SQSclient = new SQSClient({
   region: indexerQueueRegion
 })
 
+/**
+ * @type {import('aws-lambda').SNSHandler}
+ */
 async function main(event) {
   try {
-    for (const record of event.Records) {
+    const records = toS3Event(event).Records
+      .filter(r => r.eventName.startsWith('ObjectCreated'))
+      .filter(r => r.s3.object.key.endsWith('.car'))
+    for (const record of records) {
       const snsMessage = `${record.awsRegion}/${record.s3.bucket.name}/${record.s3.object.key}`
       await publishToSQS(snsMessage)
     }
@@ -35,6 +41,28 @@ async function publishToSQS(data) {
     )
     throw e
   }
+}
+
+/**
+ * Extract an S3Event from the passed SNSEvent.
+ * @param {import('aws-lambda').SNSEvent} snsEvent
+ * @returns {import('aws-lambda').S3Event}
+ */
+function toS3Event(snsEvent) {
+  const s3Event = { Records: [] }
+  for (const snsRec of snsEvent.Records) {
+    try {
+      for (const s3Rec of JSON.parse(snsRec.Sns.Message).Records || []) {
+        if (s3Rec.eventSource !== 'aws:s3') {
+          continue
+        }
+        s3Event.Records.push(s3Rec)
+      }
+    } catch (err) {
+      console.error(`failed to extract S3Event record from SNSEvent record: ${err.message}`, snsRec)
+    }
+  }
+  return s3Event
 }
 
 exports.handler = main
