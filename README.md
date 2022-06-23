@@ -2,7 +2,7 @@
 
 The purpose of this component is to notify indexer subsystem of the existence of a new object in a S3 bucket. It receives a PUT notification trigger, transforms it into a message with the expected format and sends it to the indexer SQS topic.
 
-![Bucket to indexer diagram](assets/images/bucket-to-indexer.diagram.png)
+<img src="assets/images/bucket-to-indexer.diagram.png" alt="Bucket to indexer diagram" width="833">
 
 
 This lambda can be triggered by any S3 buckets within the same region it was deployed. It also can be deployed in multiple regions.
