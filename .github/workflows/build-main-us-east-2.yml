@@ -1,8 +1,8 @@
 ---
-name: Build And Deploy
+name: Build And Deploy (US-EAST-2)
 on:
   push:
-    branches: [main]
+    branches: [main, multi-region-deploy]
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
@@ -15,8 +15,8 @@ jobs: # We need two separate builds as each is going to a different ECR repo
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
-      aws_region: ${{ secrets.AWS_REGION }}
-      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_STAGING }}
+      aws_region: us-east-2
+      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_US_EAST_2_STAGING }}
   build-prod:
     permissions:
       packages: write
@@ -25,8 +25,8 @@ jobs: # We need two separate builds as each is going to a different ECR repo
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
-      aws_region: ${{ secrets.AWS_REGION }}
-      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY }}
+      aws_region: us-east-2
+      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_US_EAST_2_PROD }}
   deploy-to-staging:
     uses: ipfs-elastic-provider/shared-workflows/.github/workflows/lambda-shared-deploy.yaml@main
     permissions:
@@ -39,8 +39,8 @@ jobs: # We need two separate builds as each is going to a different ECR repo
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
-      aws_region: ${{ secrets.AWS_REGION }}
-      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_STAGING }}
+      aws_region: us-east-2
+      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_US_EAST_2_STAGING }}
   deploy-to-prod:
     uses: ipfs-elastic-provider/shared-workflows/.github/workflows/lambda-shared-deploy.yaml@main
     permissions:
@@ -53,5 +53,5 @@ jobs: # We need two separate builds as each is going to a different ECR repo
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
-      aws_region: ${{ secrets.AWS_REGION }}
-      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY }}
+      aws_region: us-east-2
+      aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_US_EAST_2_PROD }}
