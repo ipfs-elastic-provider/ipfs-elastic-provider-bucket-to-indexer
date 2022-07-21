@@ -15,7 +15,7 @@ jobs: # We need two separate builds as each is going to a different ECR repo
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
-      aws_region: us_west_2
+      aws_region: us-west-2
       aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_US_WEST_2_PROD }}
   deploy-to-prod:
     uses: ipfs-elastic-provider/shared-workflows/.github/workflows/lambda-shared-deploy.yaml@main
@@ -29,5 +29,5 @@ jobs: # We need two separate builds as each is going to a different ECR repo
     secrets:
       aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
       aws_role_id: ${{ secrets.AWS_ROLE_ID }}
-      aws_region: us_west_2
+      aws_region: us-west-2
       aws_ecr_repository: ${{ secrets.AWS_ECR_REPOSITORY_US_WEST_2_PROD }}
