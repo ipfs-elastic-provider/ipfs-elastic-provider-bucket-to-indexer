@@ -2,7 +2,7 @@
 name: Build And Deploy (US-WEST-2)
 on:
   push:
-    branches: [main, multi-region-deploy]
+    branches: [main]
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
