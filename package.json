@@ -1,5 +1,5 @@
 {
-  "name": "ipfs-elastic-provider-bucket-to-indexer",
+  "name": "bucket-to-indexer",
   "version": "0.1.0",
   "description": "Converts trigger from S3 to a message to send to indexer SQS",
   "author": "Francisco Ferreira Cardoso <francisco.cardoso@nearform.com>",

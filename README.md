@@ -1,4 +1,4 @@
-# IPFS Elastic Provider - Bucket to Indexer
+# Bucket to Indexer
 
 The purpose of this component is to notify indexer subsystem of the existence of a new object in a S3 bucket. It receives a PUT notification trigger, transforms it into a message with the expected format and sends it to the indexer SQS topic.
 
